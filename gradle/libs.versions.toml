@@ -11,6 +11,8 @@ activity = "1.9.2"
 constraintlayout = "2.1.4"
 navigationUi = "2.8.1"
 navigationFragment = "2.8.1"
+hiltVersion = "2.46.1"
+kspVersion = "1.5.30-1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,8 +25,12 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android" , version.ref = "hiltVersion"}
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler" , version.ref = "hiltVersion"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinAndroidKsp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref ="hiltVersion" }
 
