@@ -1,6 +1,7 @@
 package com.coral.coral_kiosk.cartFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.coral.coral_kiosk.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CartFragment : Fragment() {
 
     companion object {
@@ -21,8 +24,10 @@ class CartFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.getItemList().forEach { item ->
+            Log.i("MARKED Ω", "Item Found: ${item.name}")
+        }
 
-        // TODO: Use the ViewModel
     }
 
     override fun onCreateView(

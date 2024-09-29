@@ -10,13 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.coral.coral_kiosk.R;
+import com.coral.coral_kiosk.models.KioskItem;
 
+import java.util.List;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ListFragment extends Fragment {
 
     private ListViewModel mViewModel;
@@ -46,6 +53,17 @@ public class ListFragment extends Fragment {
 
         cartButton.setOnClickListener(v -> navToCart());
         detailsButton.setOnClickListener(v -> navToDetails());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        List<KioskItem> internalList = mViewModel.getItemList();
+
+        for (int x = 0; x < internalList.size(); x++) {
+            Log.i("MARKED Ω", "List Item " + x + ": " + internalList.get(x));
+        }
     }
 
     public void navToDetails() {

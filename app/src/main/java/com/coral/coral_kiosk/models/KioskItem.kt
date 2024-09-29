@@ -1,4 +1,4 @@
-package com.coral.coral_kiosk
+package com.coral.coral_kiosk.models
 
 import android.location.Location
 
@@ -6,8 +6,7 @@ data class KioskItem(
     val name: String,
     val description: String,
     val lat: Double,
-    val long: Double,
-
+    val long: Double
 ) {
     /** Calculates the distance from the given coordinates to the item's coordinates
      * @param userLat the user's latitude
