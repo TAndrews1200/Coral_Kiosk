@@ -23,6 +23,9 @@
         android:name="com.coral.coral_kiosk.detailsFragment.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details">
+        <argument
+            android:name="selectedItem"
+            app:argType="com.coral.coral_kiosk.models.KioskItem" />
         <action
             android:id="@+id/action_detailsFragment_to_cartFragment"
             app:destination="@id/cartFragment" />

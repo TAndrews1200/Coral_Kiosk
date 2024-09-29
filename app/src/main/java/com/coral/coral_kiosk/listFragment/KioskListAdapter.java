@@ -21,14 +21,16 @@ public class KioskListAdapter extends
         RecyclerView.Adapter<KioskListAdapter.ViewHolder> {
 
     private final List<KioskItem> itemList;
+    private final OnItemClickListener itemClickListener;
 
     /**
      * KioskListAdapter constructor
      *
      * @param itemList list of KioskItems to display
      */
-    public KioskListAdapter(List<KioskItem> itemList) {
+    public KioskListAdapter(List<KioskItem> itemList, OnItemClickListener clickListener) {
         this.itemList = itemList;
+        this.itemClickListener = clickListener;
     }
 
     @NonNull
@@ -47,6 +49,8 @@ public class KioskListAdapter extends
         KioskItem kioskItem = itemList.get(position);
         holder.nameTextView.setText(kioskItem.getName());
         holder.descTextView.setText(kioskItem.getDescription());
+
+        holder.itemView.setOnClickListener(v -> itemClickListener.onItemClick(itemList.get(position)));
     }
 
     @Override
@@ -64,4 +68,8 @@ public class KioskListAdapter extends
             descTextView = itemView.findViewById(R.id.kioskListItemDescription);
         }
     }
+}
+
+interface OnItemClickListener {
+    void onItemClick(KioskItem item);
 }

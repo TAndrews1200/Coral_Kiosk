@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,12 +53,9 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button cartButton = view.findViewById(R.id.listToCartButton);
-        Button detailsButton = view.findViewById(R.id.listToDetailsButton);
         kioskRecyclerView = view.findViewById(R.id.listFragmentRecyclerView);
 
         cartButton.setOnClickListener(v -> navToCart());
-        detailsButton.setOnClickListener(v -> navToDetails());
-
     }
 
     @Override
@@ -70,19 +68,17 @@ public class ListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        KioskListAdapter adapter = new KioskListAdapter(mViewModel.getItemList());
+        KioskListAdapter adapter = new KioskListAdapter(mViewModel.getItemList(), this::navToDetails);
         kioskRecyclerView.setAdapter(adapter);
         kioskRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         List<KioskItem> internalList = mViewModel.getItemList();
 
-        for (int x = 0; x < internalList.size(); x++) {
-            Log.i("MARKED Ω", "List Item " + x + ": " + internalList.get(x));
-        }
     }
 
-    public void navToDetails() {
-        findNavController(this).navigate(R.id.action_listFragment_to_detailsFragment);
+    public void navToDetails(KioskItem selectedItem) {
+        findNavController(this)
+                .navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(selectedItem));
     }
 
     public void navToCart() {

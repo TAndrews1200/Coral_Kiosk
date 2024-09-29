@@ -14,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.coral.coral_kiosk.R;
+import com.coral.coral_kiosk.models.KioskItem;
 
 public class DetailsFragment extends Fragment {
 
@@ -35,14 +37,19 @@ public class DetailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button detailsButton = view.findViewById(R.id.detailsToCartButton);
+        TextView itemName = view.findViewById(R.id.detailsFragmentItemName);
+        TextView itemDescription = view.findViewById(R.id.detailsFragmentItemDescription);
 
+        KioskItem item = DetailsFragmentArgs.fromBundle(getArguments()).getSelectedItem();
+
+        itemName.setText(item.getName());
+        itemDescription.setText(item.getDescription());
         detailsButton.setOnClickListener(v -> navToCart());
     }
 

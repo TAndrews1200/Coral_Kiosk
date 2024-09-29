@@ -23,11 +23,6 @@ class CartFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.getItemList().forEach { item ->
-            Log.i("MARKED Ω", "Item Found: ${item.name}")
-        }
-
     }
 
     override fun onCreateView(

@@ -1,14 +1,17 @@
 package com.coral.coral_kiosk.models
 
 import android.location.Location
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class KioskItem(
     val name: String,
     val description: String,
     val SKU: String,
     val lat: Double,
     val long: Double
-) {
+) : Parcelable {
     /**
      * Calculates the distance from the given coordinates to the item's coordinates
      * @param userLat the user's latitude

@@ -22,14 +22,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:text="Cart"/>
 
-    <Button
-        android:id="@+id/listToDetailsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listToCartButton"
-        android:text="Details"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listFragmentRecyclerView"
         android:layout_width="0dp"
@@ -37,6 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listToDetailsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/listToCartButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
