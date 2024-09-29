@@ -9,12 +9,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.coral.coral_kiosk.R;
 import com.coral.coral_kiosk.models.KioskItem;
@@ -27,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class ListFragment extends Fragment {
 
     private ListViewModel mViewModel;
+    private RecyclerView kioskRecyclerView;
 
     public static ListFragment newInstance() {
         return new ListFragment();
@@ -36,7 +40,6 @@ public class ListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ListViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override
@@ -50,14 +53,26 @@ public class ListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button cartButton = view.findViewById(R.id.listToCartButton);
         Button detailsButton = view.findViewById(R.id.listToDetailsButton);
+        kioskRecyclerView = view.findViewById(R.id.listFragmentRecyclerView);
 
         cartButton.setOnClickListener(v -> navToCart());
         detailsButton.setOnClickListener(v -> navToDetails());
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        KioskListAdapter adapter = new KioskListAdapter(mViewModel.getItemList());
+        kioskRecyclerView.setAdapter(adapter);
+        kioskRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         List<KioskItem> internalList = mViewModel.getItemList();
 

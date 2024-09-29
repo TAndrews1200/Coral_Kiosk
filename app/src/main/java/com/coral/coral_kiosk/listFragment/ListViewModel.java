@@ -15,10 +15,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class ListViewModel extends ViewModel {
 
-    private KioskRepo kioskRepo;
+    private final KioskRepo kioskRepo;
 
     @Inject
-    ListViewModel(SavedStateHandle handle, KioskRepo kioskRepo){
+    ListViewModel(KioskRepo kioskRepo){
         this.kioskRepo = kioskRepo;
     }
 
