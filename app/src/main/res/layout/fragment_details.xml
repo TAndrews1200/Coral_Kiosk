@@ -10,12 +10,12 @@
         android:id="@+id/detailsFragmentItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="@dimen/margin_15"
         android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="30sp"
+        android:textSize="@dimen/text_size_30"
         android:textStyle="bold"
         tools:text="Just your standard issue oversized string in a tools field"/>
 
@@ -23,42 +23,43 @@
         android:id="@+id/detailsFragmentItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="@dimen/margin_15"
         app:layout_constraintTop_toBottomOf="@+id/detailsFragmentItemName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="15sp"
+        android:textSize="@dimen/text_size_14"
         tools:text="Just another of your standard issue oversized string in a tools field"/>
 
     <TextView
         android:id="@+id/detailsFragmentItemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="@dimen/margin_15"
         app:layout_constraintTop_toBottomOf="@+id/detailsFragmentItemDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_12"
         tools:text="20"/>
 
     <EditText
         android:id="@+id/detailsFragmentQuantityToAdd"
+        android:autofillHints=""
         app:layout_constraintTop_toBottomOf="@+id/detailsFragmentItemPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:inputType="number"
-        android:hint="Quantity"
-        android:layout_width="100dp"
-        android:layout_height="50dp"/>
+        android:hint="@string/generic_quantity"
+        android:layout_width="@dimen/details_frag_quantity_width"
+        android:layout_height="@dimen/details_frag_quantity_height"/>
 
     <Button
         android:id="@+id/detailsFragmentAddToCartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailsFragmentQuantityToAdd"
-        android:text="Add to cart"/>
+        android:text="@string/add_to_cart"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

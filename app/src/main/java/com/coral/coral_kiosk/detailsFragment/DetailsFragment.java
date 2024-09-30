@@ -12,7 +12,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,21 +52,23 @@ public class DetailsFragment extends BaseFragment {
 
         itemName.setText(mViewModel.getCurrentItem().getName());
         itemDescription.setText(mViewModel.getCurrentItem().getDescription());
-        itemPrice.setText("$" + mViewModel.getCurrentItem().getPrice());
+        itemPrice.setText(getString(R.string.generic_dollar_sign_format, String.valueOf(mViewModel.getCurrentItem().getPrice())));
         addToCartButton.setOnClickListener(v -> {
             String quantity = itemQuantity.getText().toString();
-            Log.i("MARKED Ω", "Quantity Value: " + quantity);
             if (!quantity.isEmpty()) {
                 mViewModel.addToCart(Integer.parseInt(quantity));
                 Toast.makeText(this.getContext(), "Added " + quantity + " to cart!", Toast.LENGTH_SHORT).show();
                 sendPurchaseNotification();
                 navBack();
             } else {
-                Toast.makeText(this.getContext(), "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), R.string.please_enter_a_valid_quantity, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    /**
+     * Navigate back up the stack.
+     */
     public void navBack() {
         findNavController(this).popBackStack();
     }
@@ -85,8 +86,8 @@ public class DetailsFragment extends BaseFragment {
         */
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this.requireContext(), CoralApp.getCART_CHANNEL_ID())
                 .setSmallIcon(R.drawable.baseline_shopping_cart_24)
-                .setContentTitle("Item Added")
-                .setContentText("The " + mViewModel.getCurrentItem().getName() + " has been added to the cart")
+                .setContentTitle(getString(R.string.item_added))
+                .setContentText(getString(R.string.the_s_has_been_added_to_the_cart, mViewModel.getCurrentItem().getName()))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         ((NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE))
                 .notify(CoralApp.getCART_NOTIFICATION_ID(), builder.build());

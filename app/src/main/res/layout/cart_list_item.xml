@@ -5,15 +5,15 @@
     android:id="@+id/cartListItemCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginEnd="10dp"
-    app:cardCornerRadius="10dp">
+    android:layout_marginStart="@dimen/margin_10"
+    android:layout_marginTop="@dimen/margin_20"
+    android:layout_marginEnd="@dimen/margin_10"
+    app:cardCornerRadius="@dimen/corner_10">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
+        android:layout_margin="@dimen/margin_6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,9 +21,9 @@
 
         <TextView
             android:id="@+id/cartListItemQuantity"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="match_parent"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_20"
             android:maxLines="1"
             android:ellipsize="end"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,9 +32,9 @@
 
         <TextView
             android:id="@+id/cartListItemName"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="match_parent"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_20"
             android:maxLines="1"
             android:ellipsize="end"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,19 +44,19 @@
 
         <Button
             android:id="@+id/cartListItemRemove"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/margin_40"
+            android:layout_height="@dimen/margin_40"
             android:background="@drawable/baseline_delete_forever_24"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/margin_5"
             app:layout_constraintStart_toStartOf="@+id/cartListItemName"
             app:layout_constraintTop_toBottomOf="@+id/cartListItemName"/>
 
         <TextView
             android:id="@+id/cartListItemPriceTotal"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="14sp"
+            android:layout_marginStart="@dimen/margin_10"
+            android:textSize="@dimen/text_size_14"
             android:textAlignment="viewEnd"
             app:layout_constraintBottom_toBottomOf="@+id/cartListItemRemove"
             app:layout_constraintStart_toEndOf="@+id/cartListItemRemove"

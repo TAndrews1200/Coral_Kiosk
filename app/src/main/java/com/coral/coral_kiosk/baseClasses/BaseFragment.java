@@ -15,6 +15,8 @@ public class BaseFragment extends Fragment {
 
         NavController navController = FragmentKt.findNavController(this);
         OnBackPressedCallback callback =
+
+                //Process back presses through the nav graph before the overall activity
                 new OnBackPressedCallback(true) {
                     @Override
                     public void handleOnBackPressed() {

@@ -10,5 +10,5 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class KioskModule {
 
     @Binds
-    abstract fun getCartSource(repo: KioskRepoImpl): KioskRepo
+    abstract fun getKioskRepo(repo: KioskRepoImpl): KioskRepo
 }

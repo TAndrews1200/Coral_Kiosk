@@ -78,16 +78,7 @@ public class ListFragment extends BaseFragment {
          */
         WeakReference<ListFragment> weakListFragment = new WeakReference<>(this);
         final Observer<Location> locationObserver = location -> {
-            locationText.setText("Current Location: " + location.getLatitude() +
-                    "\n by " + location.getLongitude());
-
-            KioskListAdapter adapter =
-                    new KioskListAdapter(mViewModel.getItemList(),
-                            mViewModel.getLastKnownLocation().getValue(),
-                            selectedItem -> weakListFragment.get().navToDetails(selectedItem));
-            kioskRecyclerView.setAdapter(adapter);
-            kioskRecyclerView.setLayoutManager(
-                    new LinearLayoutManager(weakListFragment.get().getContext()));
+            setUpKioskItemList(location, weakListFragment);
         };
         mViewModel.getLastKnownLocation().observe(this, locationObserver);
 
@@ -96,6 +87,30 @@ public class ListFragment extends BaseFragment {
         }
     }
 
+    /**
+     * Set up the recycler view for the KioskItemList
+     *
+     * @param userLocation User's Location, used to highlight nearby items
+     * @param weakListFragment Weak reference to this fragment
+     */
+    private void setUpKioskItemList(Location userLocation, WeakReference<ListFragment> weakListFragment) {
+        locationText.setText(
+                getString(R.string.current_location_s_by_s,
+                        String.valueOf(userLocation.getLatitude()),
+                        String.valueOf(userLocation.getLongitude())));
+
+        KioskListAdapter adapter =
+                new KioskListAdapter(mViewModel.getItemList(),
+                        mViewModel.getLastKnownLocation().getValue(),
+                        selectedItem -> weakListFragment.get().navToDetails(selectedItem));
+        kioskRecyclerView.setAdapter(adapter);
+        kioskRecyclerView.setLayoutManager(
+                new LinearLayoutManager(weakListFragment.get().getContext()));
+    }
+
+    /**
+     * Update our location ONLY IF we have the permission to check for location
+     */
     private void checkPermissionAndUpdateLocation() {
         if (ActivityCompat.checkSelfPermission(ListFragment.this.requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -105,11 +120,19 @@ public class ListFragment extends BaseFragment {
         }
     }
 
+    /**
+     * Go to the Details screen for a certain item.
+     *
+     * @param selectedItem the item we want details for.
+     */
     public void navToDetails(KioskItem selectedItem) {
         findNavController(this)
                 .navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(selectedItem));
     }
 
+    /**
+     * Go to the Cart
+     */
     public void navToCart() {
         findNavController(this).navigate(R.id.action_listFragment_to_cartFragment);
     }

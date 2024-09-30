@@ -31,6 +31,11 @@ public class ListViewModel extends ViewModel {
 
     private MutableLiveData<Location> lastKnownLocation;
 
+    /**
+     * The result of the last location check.
+     *
+     * @return MutableLiveData<Location> representing the most recent location result
+     */
     public MutableLiveData<Location> getLastKnownLocation() {
         if (lastKnownLocation == null) {
             lastKnownLocation = new MutableLiveData<>();
@@ -38,14 +43,22 @@ public class ListViewModel extends ViewModel {
         return lastKnownLocation;
     }
 
+    /**
+     * Obtain a list of all available items in the system
+     *
+     * @return List<KioskItem> containing all available items
+     */
     public List<KioskItem> getItemList(){
         return kioskRepo.getKioskItems();
     }
 
+    /**
+     * update the lastKnownLocation
+     *
+     * @param locationManager LocationManager from implementing context
+     */
     @RequiresPermission(allOf = Manifest.permission.ACCESS_FINE_LOCATION)
     public void updateUserLocation(LocationManager locationManager){
-        Log.i("MARKED Ω","Updating...");
         lastKnownLocation.setValue(LocationTool.INSTANCE.getLocation(locationManager));
     }
-
 }

@@ -18,33 +18,38 @@ class CartViewModel @Inject constructor(
     val activeCartPrice: MutableLiveData<Double> by lazy{ MutableLiveData<Double>() }
     val activeCartQuantity: MutableLiveData<Int> by lazy{ MutableLiveData<Int>() }
 
-    fun updateCartList() {
-        activeCartList.value = kioskRepo.getCartItemsAsList()
-        updateCartTotals()
-    }
-
-    fun removeCartItem(item: KioskItem) {
-        kioskRepo.removeCartItem(item)
-        updateCartList()
-    }
-
     /**
-     * Returns the total Price and Quantity
-     *
-     * @return Pair<Double, Int> where first is price and second is quantity
+     * Get the updated Cart List from the kioskRepo
      */
-    fun updateCartTotals() {
+    fun updateCartStats() {
+        val cartList = kioskRepo.getCartItemsAsList()
+        activeCartList.postValue(kioskRepo.getCartItemsAsList())
+
         var quantityTotal = 0
         var priceTotal = 0.0
-        activeCartList.value.orEmpty().forEach { itemPair ->
+        cartList.forEach { itemPair ->
             quantityTotal += itemPair.second
             priceTotal += (itemPair.first.price * itemPair.second)
         }
-        activeCartPrice.value = priceTotal
-        activeCartQuantity.value = quantityTotal
+
+        activeCartPrice.postValue(priceTotal)
+        activeCartQuantity.postValue(quantityTotal)
     }
 
+    /**
+     * Wholly remove an item from the cart.
+     */
+    fun removeCartItem(item: KioskItem) {
+        kioskRepo.removeCartItem(item)
+        updateCartStats()
+    }
+
+    /**
+     * Checkout Cart, clearing everything from the map (This is very much a simplification)
+     */
     fun checkoutCart(): Int {
-        return kioskRepo.checkoutCart()
+        val checkedOut = kioskRepo.checkoutCart()
+        updateCartStats()
+        return checkedOut
     }
 }

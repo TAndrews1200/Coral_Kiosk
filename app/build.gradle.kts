@@ -18,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.coral.coral_kiosk.CustomTestRunner"
     }
 
     buildTypes {
@@ -48,9 +48,17 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.hilt.android)
+    implementation(libs.hilt.android.testing)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.runner)
+    implementation(libs.mockito.kotlin)
+    implementation(libs.mockito.android)
+    implementation(libs.androidx.rules)
+//    implementation(libs.mockito.core)
+//    implementation(libs.mockito.inline)
     kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
+//    testImplementation(libs.mockito)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

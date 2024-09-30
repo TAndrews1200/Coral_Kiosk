@@ -21,9 +21,9 @@ interface KioskRepo {
     fun getKioskItems(): List<KioskItem>
 
     /**
-     * Add an item to the cart, presumably this would also be a server call, to allow for the cart
-     * to persist between devices. (The importance of this persistence would be pretty dependant on
-     * the overall needs, and would probably be a product call.)
+     * Add (or Subtract) an item to/from the cart, presumably this would also be a server call,
+     * to allow for the cart to persist between devices. (The importance of this persistence would
+     * be pretty dependant on the overall needs, and would probably be a product call.)
      *
      * @param item Item being changed in cart
      * @param amount Amount to add or subtract from the cart
@@ -86,7 +86,7 @@ class KioskRepoImpl @Inject constructor() : KioskRepo {
     }
 }
 
-
+//Our fake KioskItemList
 private val KioskItemList = listOf(
     KioskItem(
         "Item Zero",

@@ -87,6 +87,9 @@ public class KioskListAdapter extends
     }
 }
 
+/**
+ * Simple click listener for getting feedback from list items.
+ */
 interface OnItemClickListener {
     void onItemClick(KioskItem item);
 }

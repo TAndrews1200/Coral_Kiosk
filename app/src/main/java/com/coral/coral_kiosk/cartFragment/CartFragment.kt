@@ -1,7 +1,6 @@
 package com.coral.coral_kiosk.cartFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,56 +39,75 @@ class CartFragment : BaseFragment() {
         checkoutButton = view.findViewById(R.id.cartFragmentCheckoutButton)
         cartRecyclerView = view.findViewById(R.id.cartFragmentRecyclerView)
         cartPriceTotal = view.findViewById(R.id.cartFragmentTotalPrice)
-        checkoutButton.setOnClickListener { v: View? -> checkoutPressed() }
+        checkoutButton.setOnClickListener { v: View? -> displayCheckoutDialog() }
     }
 
     override fun onStart() {
         super.onStart()
 
-        viewModel.updateCartList()
+        viewModel.updateCartStats()
 
         val listObserver = Observer<List<Pair<KioskItem, Int>>> { list ->
-            val adapter = CartListAdapter(list) { pos ->
-                viewModel.removeCartItem(list[pos].first)
-            }
-
-            cartRecyclerView.setAdapter(adapter)
-            cartRecyclerView.setLayoutManager(
-                LinearLayoutManager(this@CartFragment.context)
-            )
+            setupCartList(list)
         }
         val priceObserver = Observer<Double> { price ->
-            cartPriceTotal.text = "$$price"
+            cartPriceTotal.text = getString(R.string.generic_dollar_sign_format, price.toString())
         }
         val quantityObserver = Observer<Int> { quantity ->
-            checkoutButton.setText("Buy $quantity items!")
+            checkoutButton.setText(getString(R.string.buy_x_items, quantity))
         }
         viewModel.activeCartList.observe(this, listObserver)
         viewModel.activeCartPrice.observe(this, priceObserver)
         viewModel.activeCartQuantity.observe(this, quantityObserver)
     }
 
-    fun checkoutPressed() {
+    /**
+     * Setup the item list for the cart
+     *
+     * @list List of Pairs, the first parameter being the KioskItem carted,
+     *       the second parameter being the quantity carted
+     */
+    private fun setupCartList(list: List<Pair<KioskItem, Int>>) {
+        val adapter = CartListAdapter(list) { pos ->
+            viewModel.removeCartItem(list[pos].first)
+        }
+
+        cartRecyclerView.setAdapter(adapter)
+        cartRecyclerView.setLayoutManager(
+            LinearLayoutManager(this@CartFragment.context)
+        )
+    }
+
+    /**
+     * Show the Checkout Dialog
+     */
+    private fun displayCheckoutDialog() {
         val alertDialogBuilder = AlertDialog.Builder(this.requireContext())
-        alertDialogBuilder.setTitle("Checkout?")
+        alertDialogBuilder.setTitle(getString(R.string.question_checkout))
         alertDialogBuilder
-            .setMessage("Do you want to checkout your ${viewModel.activeCartQuantity.value} items, " +
-                    "costing a total of $${viewModel.activeCartPrice.value}?")
-        alertDialogBuilder.setPositiveButton("Yes") { _, _ ->
-            Log.i("MARKED Ω", "Checkout!")
+            .setMessage(
+                getString(
+                    R.string.double_check_checkout,
+                    viewModel.activeCartQuantity.value.toString(),
+                    viewModel.activeCartPrice.value.toString()
+                ))
+        alertDialogBuilder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             checkoutConfirmed()
         }
-        alertDialogBuilder.setNegativeButton("No") { _, _ ->
+        alertDialogBuilder.setNegativeButton(getString(R.string.no)) { _, _ ->
             //No op, it just closes the dialog.
         }
         alertDialogBuilder.create().show()
     }
 
+    /**
+     * Activate Checkout, display related Toast, return to List to buy more.
+     */
     private fun checkoutConfirmed() {
         val checkedOut = viewModel.checkoutCart()
         Toast.makeText(
             requireContext(),
-            "Bought $checkedOut items!",
+            getString(R.string.bought_x_items, checkedOut),
             Toast.LENGTH_SHORT
         ).show()
         findNavController().navigate(CartFragmentDirections.actionCartFragmentToListFragment())

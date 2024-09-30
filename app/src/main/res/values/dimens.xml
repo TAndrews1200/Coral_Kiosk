@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Margins-->
+    <dimen name="margin_5">5dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
+
+    <!--Generics-->
+    <dimen name="zero_dp">0dp</dimen>
+    <dimen name="corner_10">10dp</dimen>
+
+    <!--Details Fragment-->
+    <dimen name="details_frag_quantity_width">100dp</dimen>
+    <dimen name="details_frag_quantity_height">50dp</dimen>
+
+    <!--Checkout Fragment-->
+    <dimen name="checkout_button_width">250dp</dimen>
+
+    <!--Text-->
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_30">30sp</dimen>
+</resources>
