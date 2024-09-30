@@ -33,7 +33,7 @@ public class KioskListAdapter extends
      *
      * @param itemList list of KioskItems to display
      * @param userLocation the location object of the user, for highlights.
-     * @
+     * @param clickListener clickListener for the overall view
      */
     public KioskListAdapter(List<KioskItem> itemList,
                             Location userLocation,

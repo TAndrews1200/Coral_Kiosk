@@ -1,6 +1,5 @@
 package com.coral.coral_kiosk.repos
 
-import android.util.Log
 import com.coral.coral_kiosk.models.KioskItem
 import javax.inject.Inject
 
@@ -31,7 +30,14 @@ interface KioskRepo {
     /**
      * Get the list of items currently in the user's cart
      */
-    fun getCartItems()
+    fun getCartItemsAsList(): List<Pair<KioskItem, Int>>
+
+    /**
+     * Set the cart based on a list, for
+     */
+    fun setCartItemsFromList(cartList: List<Pair<KioskItem, Int>>)
+
+    fun removeCartItem(item: KioskItem)
 }
 
 class KioskRepoImpl @Inject constructor() : KioskRepo {
@@ -48,15 +54,25 @@ class KioskRepoImpl @Inject constructor() : KioskRepo {
         }
     }
 
-    override fun getCartItems() {
+    override fun getCartItemsAsList(): List<Pair<KioskItem, Int>> {
+        return cartHashMap.toList()
+    }
 
-        cartHashMap.keys.forEach { key ->
-            Log.i("MARKED Ω", "Cart Item: $key x ${cartHashMap[key]}")
+    override fun setCartItemsFromList(cartList: List<Pair<KioskItem, Int>>) {
+        cartHashMap.clear()
+        cartList.forEach { quantityPair ->
+            if (quantityPair.second != 0) {
+                cartHashMap[quantityPair.first] = quantityPair.second
+            }
         }
     }
 
+    override fun removeCartItem(item: KioskItem) {
+        cartHashMap.remove(item)
+    }
+
     companion object{
-        val cartHashMap: HashMap<KioskItem, Int> = HashMap<KioskItem, Int>()
+        val cartHashMap: HashMap<KioskItem, Int> = HashMap()
     }
 }
 
