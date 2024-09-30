@@ -23,6 +23,7 @@
     <string name="double_check_checkout">Do you want to checkout your %1$s items, costing a total of $%2$s?</string>
     <string name="bought_x_items">Bought %1$d items!</string>
     <string name="buy_x_items">Buy %1$d items</string>
+    <string name="generic_quantity_template">x%1$s</string>
 
     <!--Additional-->
 

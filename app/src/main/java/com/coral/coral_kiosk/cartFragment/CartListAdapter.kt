@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.coral.coral_kiosk.R
 import com.coral.coral_kiosk.models.KioskItem
+import java.math.BigDecimal
+import java.math.MathContext
 
 /**
  * The Adapter for the cart interface, to changing the inventory of the cart.
@@ -33,8 +35,11 @@ class CartListAdapter(
         val itemQuantity = itemList[position].second
 
         holder.nameTextView.text = kioskItem.name
-        holder.quantityTextView.text = "x$itemQuantity"
-        holder.priceTextView.text = "$${itemQuantity * kioskItem.price}"
+        holder.quantityTextView.text =
+            holder.itemView.context.getString(R.string.generic_quantity_template, itemQuantity.toString())
+        holder.priceTextView.text =
+            holder.itemView.context.getString(R.string.generic_dollar_sign_format,
+                BigDecimal(itemQuantity * kioskItem.price).round(MathContext(3)).toString())
 
         holder.itemRemoveButton.setOnClickListener {
             onRemoveClick(position)

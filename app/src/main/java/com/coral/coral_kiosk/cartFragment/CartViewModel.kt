@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.coral.coral_kiosk.models.KioskItem
 import com.coral.coral_kiosk.repos.KioskRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.math.BigDecimal
+import java.math.MathContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +31,7 @@ class CartViewModel @Inject constructor(
         var priceTotal = 0.0
         cartList.forEach { itemPair ->
             quantityTotal += itemPair.second
-            priceTotal += (itemPair.first.price * itemPair.second)
+            priceTotal += BigDecimal(itemPair.first.price * itemPair.second).round(MathContext(3)).toDouble()
         }
 
         activeCartPrice.postValue(priceTotal)
