@@ -24,6 +24,8 @@ import java.util.List;
 public class KioskListAdapter extends
         RecyclerView.Adapter<KioskListAdapter.ViewHolder> {
 
+    private final float HIGHLIGHT_RANGE = 10000f; //In Meters
+
     private final List<KioskItem> itemList;
     private final OnItemClickListener itemClickListener;
     private final Location userLocation;
@@ -59,7 +61,7 @@ public class KioskListAdapter extends
         holder.nameTextView.setText(kioskItem.getName());
         holder.descTextView.setText(kioskItem.getDescription());
 
-        if (LocationTool.INSTANCE.distanceToItem(userLocation, kioskItem) < 10000f ) {
+        if (LocationTool.INSTANCE.distanceToItem(userLocation, kioskItem) < HIGHLIGHT_RANGE ) {
             holder.rootCardView.setCardBackgroundColor(Color.BLUE);
         } else {
             holder.rootCardView.setCardBackgroundColor(Color.GRAY);
