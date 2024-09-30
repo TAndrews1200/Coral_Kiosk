@@ -10,10 +10,9 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(
     private val kioskRepo: KioskRepo
 ) : ViewModel() {
-    // TODO: Implement the ViewModel
 
-    fun getItemList(): List<KioskItem> {
-        return kioskRepo.getKioskItems()
+    fun getCartList(){
+        kioskRepo.getCartItems()
     }
 
 }

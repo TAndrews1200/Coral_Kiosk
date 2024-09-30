@@ -26,6 +26,7 @@
         android:id="@+id/detailsFragmentItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/detailsToCartButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +39,42 @@
         android:id="@+id/detailsFragmentItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="15dp"
         app:layout_constraintTop_toBottomOf="@+id/detailsFragmentItemName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="15sp"
         tools:text="Just another of your standard issue oversized string in a tools field"/>
+
+    <TextView
+        android:id="@+id/detailsFragmentItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/detailsFragmentItemDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="12sp"
+        tools:text="20"/>
+
+    <EditText
+        android:id="@+id/detailsFragmentQuantityToAdd"
+        app:layout_constraintTop_toBottomOf="@+id/detailsFragmentItemPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:inputType="number"
+        android:hint="quantity"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/detailsFragmentAddToCartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsFragmentQuantityToAdd"
+        android:text="Add to cart"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,14 +2,16 @@ package com.coral.coral_kiosk.listFragment;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,17 +20,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.coral.coral_kiosk.R;
+import com.coral.coral_kiosk.baseClasses.BaseFragment;
 import com.coral.coral_kiosk.models.KioskItem;
 
-import java.util.List;
+import java.lang.ref.WeakReference;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class ListFragment extends Fragment {
+public class ListFragment extends BaseFragment {
 
     private ListViewModel mViewModel;
     private RecyclerView kioskRecyclerView;
@@ -40,7 +42,6 @@ public class ListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ListViewModel.class);
     }
 
     @Override
@@ -61,19 +62,42 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mViewModel = new ViewModelProvider(this).get(ListViewModel.class);
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        KioskListAdapter adapter = new KioskListAdapter(mViewModel.getItemList(), this::navToDetails);
-        kioskRecyclerView.setAdapter(adapter);
-        kioskRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        /*
+        While a weak reference can produce a null,
+        if this fragment has gone null the adapter should also be gone.
+         */
+        WeakReference<ListFragment> weakListFragment = new WeakReference<>(this);
+        final Observer<Location> locationObserver = new Observer<Location>() {
+            @Override
+            public void onChanged(Location location) {
+                Log.i("MARKED Ω", "Changing...");
+                KioskListAdapter adapter =
+                        new KioskListAdapter(mViewModel.getItemList(),
+                                mViewModel.getLastKnownLocation().getValue(),
+                                selectedItem -> weakListFragment.get().navToDetails(selectedItem));
+                kioskRecyclerView.setAdapter(adapter);
+                kioskRecyclerView.setLayoutManager(
+                        new LinearLayoutManager(weakListFragment.get().getContext()));
+            }
+        };
+        mViewModel.getLastKnownLocation().observe(this, locationObserver);
 
-        List<KioskItem> internalList = mViewModel.getItemList();
-
+        Log.i("MARKED Ω", "What's the loc?: " + mViewModel.getLastKnownLocation().getValue());
+        if (mViewModel.getLastKnownLocation().getValue() == null){
+            Log.i("MARKED Ω", "Determined null");
+            //TODO Ω Ensure permission granted
+            mViewModel.updateUserLocation(
+                    (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE));
+        } else {
+            Log.i("MARKED Ω", "Determined value is present");
+        }
     }
 
     public void navToDetails(KioskItem selectedItem) {

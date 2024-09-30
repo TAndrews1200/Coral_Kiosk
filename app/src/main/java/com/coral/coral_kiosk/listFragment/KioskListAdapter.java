@@ -1,16 +1,20 @@
 package com.coral.coral_kiosk.listFragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coral.coral_kiosk.R;
 import com.coral.coral_kiosk.models.KioskItem;
+import com.coral.coral_kiosk.utils.LocationTool;
 
 import java.util.List;
 
@@ -22,14 +26,20 @@ public class KioskListAdapter extends
 
     private final List<KioskItem> itemList;
     private final OnItemClickListener itemClickListener;
+    private final Location userLocation;
 
     /**
      * KioskListAdapter constructor
      *
      * @param itemList list of KioskItems to display
+     * @param userLocation the location object of the user, for highlights.
+     * @
      */
-    public KioskListAdapter(List<KioskItem> itemList, OnItemClickListener clickListener) {
+    public KioskListAdapter(List<KioskItem> itemList,
+                            Location userLocation,
+                            OnItemClickListener clickListener) {
         this.itemList = itemList;
+        this.userLocation = userLocation;
         this.itemClickListener = clickListener;
     }
 
@@ -50,6 +60,12 @@ public class KioskListAdapter extends
         holder.nameTextView.setText(kioskItem.getName());
         holder.descTextView.setText(kioskItem.getDescription());
 
+        if (LocationTool.INSTANCE.distanceToItem(userLocation, kioskItem) < 10000f ) {
+            holder.rootCardView.setCardBackgroundColor(Color.BLUE);
+        } else {
+            holder.rootCardView.setCardBackgroundColor(Color.GRAY);
+        }
+
         holder.itemView.setOnClickListener(v -> itemClickListener.onItemClick(itemList.get(position)));
     }
 
@@ -61,11 +77,13 @@ public class KioskListAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;
         public TextView descTextView;
+        public CardView rootCardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.kioskListItemName);
             descTextView = itemView.findViewById(R.id.kioskListItemDescription);
+            rootCardView = itemView.findViewById(R.id.kioskListItemCardView);
         }
     }
 }

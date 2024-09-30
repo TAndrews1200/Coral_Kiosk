@@ -1,26 +1,27 @@
 package com.coral.coral_kiosk.models
 
-import android.location.Location
 import android.os.Parcelable
+import androidx.annotation.FloatRange
 import kotlinx.parcelize.Parcelize
 
+
 @Parcelize
+/**
+ * Data class to represent a salable item. Please note that SKU's uniqueness is _not_ being enforced
+ * locally in the app. This would presumably be in the backend database. If we needed a local
+ * solution, we'd probably set up a ROOM database.
+ *
+ * @param name the product's official name
+ * @param description a deeper description of the product
+ * @param SKU the Stock Keeping Unit, a unique identifier for the product
+ * @param lat the latitude of the supplier
+ * @param long the longitude of the supplier
+ */
 data class KioskItem(
     val name: String,
     val description: String,
     val SKU: String,
+    @FloatRange(0.0) val price: Double,
     val lat: Double,
     val long: Double
-) : Parcelable {
-    /**
-     * Calculates the distance from the given coordinates to the item's coordinates
-     * @param userLat the user's latitude
-     * @param userLong the user's longitude
-     * @return distance between as a Float.
-     */
-    fun distanceFrom(userLat: Double, userLong: Double): Float {
-        val results = FloatArray(1)
-        Location.distanceBetween(userLat, userLong, lat, long, results)
-        return results[0]
-    }
-}
+) : Parcelable
