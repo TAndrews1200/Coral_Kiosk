@@ -1,11 +1,14 @@
 package com.coral.coral_kiosk.cartFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,6 +26,7 @@ class CartFragment : BaseFragment() {
     private val viewModel: CartViewModel by viewModels()
     private lateinit var cartRecyclerView: RecyclerView
     private lateinit var cartPriceTotal: TextView
+    private lateinit var checkoutButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +37,10 @@ class CartFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val detailsButton = view.findViewById<Button>(R.id.cartFragmentToCheckoutButton)
-        detailsButton.setOnClickListener { v: View? -> navToCheckout() }
+        checkoutButton = view.findViewById(R.id.cartFragmentCheckoutButton)
         cartRecyclerView = view.findViewById(R.id.cartFragmentRecyclerView)
         cartPriceTotal = view.findViewById(R.id.cartFragmentTotalPrice)
+        checkoutButton.setOnClickListener { v: View? -> checkoutPressed() }
     }
 
     override fun onStart() {
@@ -44,7 +48,7 @@ class CartFragment : BaseFragment() {
 
         viewModel.updateCartList()
 
-        val listObserver = Observer<List<Pair<KioskItem, Int>>>{ list ->
+        val listObserver = Observer<List<Pair<KioskItem, Int>>> { list ->
             val adapter = CartListAdapter(list) { pos ->
                 viewModel.removeCartItem(list[pos].first)
             }
@@ -53,12 +57,41 @@ class CartFragment : BaseFragment() {
             cartRecyclerView.setLayoutManager(
                 LinearLayoutManager(this@CartFragment.context)
             )
-            cartPriceTotal.text = "$${viewModel.getCartTotalPrice()}"
+        }
+        val priceObserver = Observer<Double> { price ->
+            cartPriceTotal.text = "$$price"
+        }
+        val quantityObserver = Observer<Int> { quantity ->
+            checkoutButton.setText("Buy $quantity items!")
         }
         viewModel.activeCartList.observe(this, listObserver)
+        viewModel.activeCartPrice.observe(this, priceObserver)
+        viewModel.activeCartQuantity.observe(this, quantityObserver)
     }
 
-    fun navToCheckout() {
-        findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment)
+    fun checkoutPressed() {
+        val alertDialogBuilder = AlertDialog.Builder(this.requireContext())
+        alertDialogBuilder.setTitle("Checkout?")
+        alertDialogBuilder
+            .setMessage("Do you want to checkout your ${viewModel.activeCartQuantity.value} items, " +
+                    "costing a total of $${viewModel.activeCartPrice.value}?")
+        alertDialogBuilder.setPositiveButton("Yes") { _, _ ->
+            Log.i("MARKED Ω", "Checkout!")
+            checkoutConfirmed()
+        }
+        alertDialogBuilder.setNegativeButton("No") { _, _ ->
+            //No op, it just closes the dialog.
+        }
+        alertDialogBuilder.create().show()
+    }
+
+    private fun checkoutConfirmed() {
+        val checkedOut = viewModel.checkoutCart()
+        Toast.makeText(
+            requireContext(),
+            "Bought $checkedOut items!",
+            Toast.LENGTH_SHORT
+        ).show()
+        findNavController().navigate(CartFragmentDirections.actionCartFragmentToListFragment())
     }
 }

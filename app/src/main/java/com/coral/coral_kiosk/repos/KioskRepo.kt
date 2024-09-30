@@ -41,6 +41,13 @@ interface KioskRepo {
      * @param item the item to be removed
      */
     fun removeCartItem(item: KioskItem)
+
+    /**
+     * Clears the cart and returns the number of items checked out
+     *
+     * @return Int count of items checked out
+     */
+    fun checkoutCart(): Int
 }
 
 class KioskRepoImpl @Inject constructor() : KioskRepo {
@@ -63,6 +70,15 @@ class KioskRepoImpl @Inject constructor() : KioskRepo {
 
     override fun removeCartItem(item: KioskItem) {
         cartHashMap.remove(item)
+    }
+
+    override fun checkoutCart(): Int {
+        var total = 0
+         cartHashMap.forEach{ cartItem ->
+            total += cartItem.value
+         }
+        cartHashMap.clear()
+        return total
     }
 
     companion object{

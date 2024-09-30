@@ -44,30 +44,16 @@
     </fragment>
 
     <fragment
-        android:id="@+id/checkoutFragment"
-        android:name="com.coral.coral_kiosk.checkoutFragment.CheckoutFragment"
-        android:label="fragment_checkout"
-        tools:layout="@layout/fragment_checkout">
-        <action
-            android:id="@+id/action_checkoutFragment_to_listFragment"
-            app:enterAnim="@anim/default_slide_in"
-            app:exitAnim="@anim/default_fade_out"
-            app:popEnterAnim="@anim/default_fade_in"
-            app:popExitAnim="@anim/default_slide_out"
-            app:destination="@id/listFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/cartFragment"
         android:name="com.coral.coral_kiosk.cartFragment.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart">
         <action
-            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            android:id="@+id/action_cartFragment_to_listFragment"
             app:enterAnim="@anim/default_slide_in"
             app:exitAnim="@anim/default_fade_out"
             app:popEnterAnim="@anim/default_fade_in"
             app:popExitAnim="@anim/default_slide_out"
-            app:destination="@id/checkoutFragment" />
+            app:destination="@id/listFragment" />
     </fragment>
 </navigation>
