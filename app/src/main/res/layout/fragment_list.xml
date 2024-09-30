@@ -6,35 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".listFragment.ListFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="List"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/listToCartButton"
+        android:id="@+id/listFragmentToCartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cart"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="To Cart"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        />
+
+    <TextView
+        android:id="@+id/listFragmentLocationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="No Location"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/listFragmentToCartButton"
+        app:layout_constraintTop_toTopOf="@+id/listFragmentToCartButton"
+        app:layout_constraintBottom_toBottomOf="@+id/listFragmentToCartButton"
+        />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/listFragmentSwipeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listToCartButton">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listFragmentToCartButton">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listFragmentRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/material_dynamic_neutral70"
+            tools:listitem="@layout/kiosk_list_item"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

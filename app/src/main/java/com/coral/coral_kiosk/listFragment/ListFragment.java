@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.coral.coral_kiosk.R;
 import com.coral.coral_kiosk.baseClasses.BaseFragment;
@@ -38,14 +39,10 @@ public class ListFragment extends BaseFragment {
 
     private ListViewModel mViewModel;
     private RecyclerView kioskRecyclerView;
+    private TextView locationText;
 
     public static ListFragment newInstance() {
         return new ListFragment();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -57,8 +54,9 @@ public class ListFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button cartButton = view.findViewById(R.id.listToCartButton);
+        Button cartButton = view.findViewById(R.id.listFragmentToCartButton);
         kioskRecyclerView = view.findViewById(R.id.listFragmentRecyclerView);
+        locationText = view.findViewById(R.id.listFragmentLocationText);
         SwipeRefreshLayout kioskSwipeLayout = view.findViewById(R.id.listFragmentSwipeLayout);
 
         cartButton.setOnClickListener(v -> navToCart());
@@ -75,26 +73,25 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
         /*
         While a weak reference can produce a null,
         if this fragment has gone null the adapter should also be gone.
          */
         WeakReference<ListFragment> weakListFragment = new WeakReference<>(this);
-        final Observer<Location> locationObserver = new Observer<Location>() {
-            @Override
-            public void onChanged(Location location) {
-                Log.i("MARKED Ω", "Changing...");
-                KioskListAdapter adapter =
-                        new KioskListAdapter(mViewModel.getItemList(),
-                                mViewModel.getLastKnownLocation().getValue(),
-                                selectedItem -> weakListFragment.get().navToDetails(selectedItem));
-                kioskRecyclerView.setAdapter(adapter);
-                kioskRecyclerView.setLayoutManager(
-                        new LinearLayoutManager(weakListFragment.get().getContext()));
-            }
+        final Observer<Location> locationObserver = location -> {
+            locationText.setText("Current Location: " + location.getLatitude() +
+                    "\n by " + location.getLongitude());
+
+            KioskListAdapter adapter =
+                    new KioskListAdapter(mViewModel.getItemList(),
+                            mViewModel.getLastKnownLocation().getValue(),
+                            selectedItem -> weakListFragment.get().navToDetails(selectedItem));
+            kioskRecyclerView.setAdapter(adapter);
+            kioskRecyclerView.setLayoutManager(
+                    new LinearLayoutManager(weakListFragment.get().getContext()));
         };
         mViewModel.getLastKnownLocation().observe(this, locationObserver);
 
