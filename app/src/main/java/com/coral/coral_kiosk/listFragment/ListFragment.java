@@ -2,6 +2,8 @@ package com.coral.coral_kiosk.listFragment;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,6 +13,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import com.coral.coral_kiosk.baseClasses.BaseFragment;
 import com.coral.coral_kiosk.models.KioskItem;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -66,6 +69,7 @@ public class ListFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ListViewModel.class);
+        askForRelevantPermissions();
     }
 
     @Override
@@ -90,7 +94,7 @@ public class ListFragment extends BaseFragment {
     /**
      * Set up the recycler view for the KioskItemList
      *
-     * @param userLocation User's Location, used to highlight nearby items
+     * @param userLocation     User's Location, used to highlight nearby items
      * @param weakListFragment Weak reference to this fragment
      */
     private void setUpKioskItemList(Location userLocation, WeakReference<ListFragment> weakListFragment) {
@@ -135,5 +139,35 @@ public class ListFragment extends BaseFragment {
      */
     public void navToCart() {
         findNavController(this).navigate(R.id.action_listFragment_to_cartFragment);
+    }
+
+    /*
+    The Permissions section. Normally this would be a lot more complex, but there's a lot of different
+    ideas on how to approach permissions and which one to pick is more of a design/product decision
+    in my opinion. As they're really just here to facilitate other features, they're getting the
+    demo app treatment of being requested purely to make things function, no UI care to help make
+    people understand their need or want to grant them.
+     */
+
+    ActivityResultLauncher<String[]> permissionsLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
+                    result -> checkPermissionAndUpdateLocation());
+
+    /**
+     * Request the permissions this demo needs to function. Specifically Location and Notifications
+     */
+    private void askForRelevantPermissions() {
+        ArrayList<String> perms = new ArrayList<>();
+        perms.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        perms.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            //This permission didn't exist prior to Tiramisu
+            perms.add(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        String[] permsArray = new String[perms.size()];
+        for (int i = 0; i < permsArray.length; i++) {
+            permsArray[i] = perms.get(i);
+        }
+        permissionsLauncher.launch(permsArray);
     }
 }

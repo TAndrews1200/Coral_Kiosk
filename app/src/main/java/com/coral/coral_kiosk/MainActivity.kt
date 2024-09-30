@@ -22,23 +22,5 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        arePermissionsGranted()
-    }
-
-    private var requestCode = 100
-    private fun arePermissionsGranted() {
-        val permissions = mutableListOf(
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION
-        )
-        //Permission didn't exist prior to Tiramisu
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissions.add(android.Manifest.permission.POST_NOTIFICATIONS)
-        }
-        ActivityCompat.requestPermissions(
-            this,
-            permissions.toTypedArray(),
-            requestCode
-        )
     }
 }
