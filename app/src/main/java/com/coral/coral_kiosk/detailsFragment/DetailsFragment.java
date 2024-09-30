@@ -32,10 +32,6 @@ public class DetailsFragment extends BaseFragment {
 
     private DetailsViewModel mViewModel;
 
-    public static DetailsFragment newInstance() {
-        return new DetailsFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -46,7 +42,6 @@ public class DetailsFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
-        Button detailsButton = view.findViewById(R.id.detailsToCartButton);
         TextView itemName = view.findViewById(R.id.detailsFragmentItemName);
         TextView itemDescription = view.findViewById(R.id.detailsFragmentItemDescription);
         TextView itemPrice = view.findViewById(R.id.detailsFragmentItemPrice);
@@ -59,7 +54,6 @@ public class DetailsFragment extends BaseFragment {
         itemName.setText(mViewModel.getCurrentItem().getName());
         itemDescription.setText(mViewModel.getCurrentItem().getDescription());
         itemPrice.setText("$" + mViewModel.getCurrentItem().getPrice());
-        detailsButton.setOnClickListener(v -> navToCart());
         addToCartButton.setOnClickListener(v -> {
             String quantity = itemQuantity.getText().toString();
             Log.i("MARKED Ω", "Quantity Value: " + quantity);
@@ -72,10 +66,6 @@ public class DetailsFragment extends BaseFragment {
                 Toast.makeText(this.getContext(), "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void navToCart() {
-        findNavController(this).navigate(R.id.action_detailsFragment_to_cartFragment);
     }
 
     public void navBack() {

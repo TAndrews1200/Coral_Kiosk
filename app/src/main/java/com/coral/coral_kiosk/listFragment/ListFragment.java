@@ -41,10 +41,6 @@ public class ListFragment extends BaseFragment {
     private RecyclerView kioskRecyclerView;
     private TextView locationText;
 
-    public static ListFragment newInstance() {
-        return new ListFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

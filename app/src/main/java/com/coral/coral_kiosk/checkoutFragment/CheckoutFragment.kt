@@ -12,10 +12,6 @@ import com.coral.coral_kiosk.baseClasses.BaseFragment
 
 class CheckoutFragment : BaseFragment() {
 
-    companion object {
-        fun newInstance() = CheckoutFragment()
-    }
-
     private val viewModel: CheckoutViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

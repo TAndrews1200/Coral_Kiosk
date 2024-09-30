@@ -20,10 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CartFragment : BaseFragment() {
 
-    companion object {
-        fun newInstance() = CartFragment()
-    }
-
     private val viewModel: CartViewModel by viewModels()
     private lateinit var cartRecyclerView: RecyclerView
     private lateinit var cartPriceTotal: TextView
@@ -57,7 +53,7 @@ class CartFragment : BaseFragment() {
             cartRecyclerView.setLayoutManager(
                 LinearLayoutManager(this@CartFragment.context)
             )
-            cartPriceTotal.text = viewModel.getCartTotalPrice().toString()
+            cartPriceTotal.text = "$${viewModel.getCartTotalPrice()}"
         }
         viewModel.activeCartList.observe(this, listObserver)
     }
