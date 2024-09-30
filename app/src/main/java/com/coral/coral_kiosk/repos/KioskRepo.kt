@@ -24,6 +24,9 @@ interface KioskRepo {
      * Add an item to the cart, presumably this would also be a server call, to allow for the cart
      * to persist between devices. (The importance of this persistence would be pretty dependant on
      * the overall needs, and would probably be a product call.)
+     *
+     * @param item Item being changed in cart
+     * @param amount Amount to add or subtract from the cart
      */
     fun changeItemAmountInCart(item: KioskItem, amount: Int)
 
@@ -33,10 +36,10 @@ interface KioskRepo {
     fun getCartItemsAsList(): List<Pair<KioskItem, Int>>
 
     /**
-     * Set the cart based on a list, for
+     * Remove an item from the cart
+     *
+     * @param item the item to be removed
      */
-    fun setCartItemsFromList(cartList: List<Pair<KioskItem, Int>>)
-
     fun removeCartItem(item: KioskItem)
 }
 
@@ -56,15 +59,6 @@ class KioskRepoImpl @Inject constructor() : KioskRepo {
 
     override fun getCartItemsAsList(): List<Pair<KioskItem, Int>> {
         return cartHashMap.toList()
-    }
-
-    override fun setCartItemsFromList(cartList: List<Pair<KioskItem, Int>>) {
-        cartHashMap.clear()
-        cartList.forEach { quantityPair ->
-            if (quantityPair.second != 0) {
-                cartHashMap[quantityPair.first] = quantityPair.second
-            }
-        }
     }
 
     override fun removeCartItem(item: KioskItem) {

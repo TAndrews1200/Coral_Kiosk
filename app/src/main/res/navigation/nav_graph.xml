@@ -12,9 +12,17 @@
         tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_detailsFragment"
+            app:enterAnim="@anim/default_slide_in"
+            app:exitAnim="@anim/default_fade_out"
+            app:popEnterAnim="@anim/default_fade_in"
+            app:popExitAnim="@anim/default_slide_out"
             app:destination="@id/detailsFragment" />
         <action
             android:id="@+id/action_listFragment_to_cartFragment"
+            app:enterAnim="@anim/default_slide_in"
+            app:exitAnim="@anim/default_fade_out"
+            app:popEnterAnim="@anim/default_fade_in"
+            app:popExitAnim="@anim/default_slide_out"
             app:destination="@id/cartFragment" />
     </fragment>
 
@@ -28,6 +36,10 @@
             app:argType="com.coral.coral_kiosk.models.KioskItem" />
         <action
             android:id="@+id/action_detailsFragment_to_cartFragment"
+            app:enterAnim="@anim/default_slide_in"
+            app:exitAnim="@anim/default_fade_out"
+            app:popEnterAnim="@anim/default_fade_in"
+            app:popExitAnim="@anim/default_slide_out"
             app:destination="@id/cartFragment" />
     </fragment>
 
@@ -38,6 +50,10 @@
         tools:layout="@layout/fragment_checkout">
         <action
             android:id="@+id/action_checkoutFragment_to_listFragment"
+            app:enterAnim="@anim/default_slide_in"
+            app:exitAnim="@anim/default_fade_out"
+            app:popEnterAnim="@anim/default_fade_in"
+            app:popExitAnim="@anim/default_slide_out"
             app:destination="@id/listFragment" />
     </fragment>
 
@@ -48,6 +64,10 @@
         tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:enterAnim="@anim/default_slide_in"
+            app:exitAnim="@anim/default_fade_out"
+            app:popEnterAnim="@anim/default_fade_in"
+            app:popExitAnim="@anim/default_slide_out"
             app:destination="@id/checkoutFragment" />
     </fragment>
 </navigation>
