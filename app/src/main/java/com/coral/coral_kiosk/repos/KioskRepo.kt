@@ -141,5 +141,5 @@ private val KioskItemList = listOf(
         0.1,
         37.6867883226709,
         -122.3943727561881
-    ),
+    )
 )

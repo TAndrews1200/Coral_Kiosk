@@ -2,10 +2,13 @@ package com.coral.coral_kiosk.listFragment;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,8 +59,13 @@ public class ListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         Button cartButton = view.findViewById(R.id.listToCartButton);
         kioskRecyclerView = view.findViewById(R.id.listFragmentRecyclerView);
+        SwipeRefreshLayout kioskSwipeLayout = view.findViewById(R.id.listFragmentSwipeLayout);
 
         cartButton.setOnClickListener(v -> navToCart());
+        kioskSwipeLayout.setOnRefreshListener(() -> {
+            checkPermissionAndUpdateLocation();
+            kioskSwipeLayout.setRefreshing(false);
+        });
     }
 
     @Override
@@ -89,14 +98,17 @@ public class ListFragment extends BaseFragment {
         };
         mViewModel.getLastKnownLocation().observe(this, locationObserver);
 
-        Log.i("MARKED Ω", "What's the loc?: " + mViewModel.getLastKnownLocation().getValue());
-        if (mViewModel.getLastKnownLocation().getValue() == null){
-            Log.i("MARKED Ω", "Determined null");
-            //TODO Ω Ensure permission granted
-            mViewModel.updateUserLocation(
-                    (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE));
-        } else {
-            Log.i("MARKED Ω", "Determined value is present");
+        if (mViewModel.getLastKnownLocation().getValue() == null) {
+            checkPermissionAndUpdateLocation();
+        }
+    }
+
+    private void checkPermissionAndUpdateLocation() {
+        if (ActivityCompat.checkSelfPermission(ListFragment.this.requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mViewModel.updateUserLocation((LocationManager) ListFragment.this.requireActivity()
+                    .getSystemService(Context.LOCATION_SERVICE));
         }
     }
 
@@ -108,5 +120,4 @@ public class ListFragment extends BaseFragment {
     public void navToCart() {
         findNavController(this).navigate(R.id.action_listFragment_to_cartFragment);
     }
-
 }

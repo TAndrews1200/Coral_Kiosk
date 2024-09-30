@@ -2,8 +2,11 @@ package com.coral.coral_kiosk.detailsFragment;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coral.coral_kiosk.CoralApp;
 import com.coral.coral_kiosk.R;
 import com.coral.coral_kiosk.baseClasses.BaseFragment;
 
@@ -62,6 +66,8 @@ public class DetailsFragment extends BaseFragment {
             if (!quantity.isEmpty()) {
                 mViewModel.addToCart(Integer.parseInt(quantity));
                 Toast.makeText(this.getContext(), "Added " + quantity + " to cart!", Toast.LENGTH_SHORT).show();
+                sendPurchaseNotification();
+                navBack();
             } else {
                 Toast.makeText(this.getContext(), "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
             }
@@ -70,5 +76,29 @@ public class DetailsFragment extends BaseFragment {
 
     public void navToCart() {
         findNavController(this).navigate(R.id.action_detailsFragment_to_cartFragment);
+    }
+
+    public void navBack() {
+        findNavController(this).popBackStack();
+    }
+
+    /**
+     * Sends a simple notification that you have added something to the cart.
+     */
+    public void sendPurchaseNotification() {
+        /*
+        I have heard arguments both for doing this sort of thing the simple way implemented here, or
+        by picking up on signals sent out by the ViewModel. The simple approach is much more readable,
+        while the ViewModel approach is better if the VM in question is being used for other views
+
+        As this is an "Additional Feature" I've opted to take the simpler approach.
+        */
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.requireContext(), CoralApp.getCART_CHANNEL_ID())
+                .setSmallIcon(R.drawable.baseline_shopping_cart_24)
+                .setContentTitle("Item Added")
+                .setContentText("The " + mViewModel.getCurrentItem().getName() + " has been added to the cart")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        ((NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE))
+                .notify(CoralApp.getCART_NOTIFICATION_ID(), builder.build());
     }
 }
