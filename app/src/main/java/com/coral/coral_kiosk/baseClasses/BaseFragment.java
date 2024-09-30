@@ -20,7 +20,10 @@ public class BaseFragment extends Fragment {
                 new OnBackPressedCallback(true) {
                     @Override
                     public void handleOnBackPressed() {
-                        navController.popBackStack();
+                        if (!navController.popBackStack()){
+                            //navController.popBackStack() will only return false if it failed
+                            requireActivity().finish();
+                        }
                     }
                 };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
