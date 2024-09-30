@@ -42,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Cart Item" />
 
-        <ImageButton
+        <Button
             android:id="@+id/cartListItemRemove"
             android:layout_width="40dp"
             android:layout_height="40dp"

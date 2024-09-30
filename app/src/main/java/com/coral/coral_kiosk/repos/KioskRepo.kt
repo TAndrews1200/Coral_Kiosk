@@ -81,7 +81,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Item Zero",
         "An item defined by it's existence at 0', 0' on the map. Luckily it's waterproof.",
-        "Zero",
         150.0,
         0.0,
         0.0
@@ -89,7 +88,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Item One",
         "Strictly speaking, it's the second item. That's indices, baby!",
-        "One",
         50.0,
         30.0,
         30.0
@@ -97,7 +95,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Item Two",
         "It's rather negative, but try to be understanding",
-        "Two",
         10.0,
         -15.0,
         -15.0
@@ -105,7 +102,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Custom Fit Item",
         "An item that could be closer. Especially if you edit the code. This is true of every item, really.",
-        "Custom",
         75.0,
         37.68832564911537,
         -122.43693702466099
@@ -113,7 +109,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Our Lawyer Made Us Change The Name Of This Item So We Wouldn't Get Sued",
         "It was actually changed for the sake of testing. But we can't say if lawyers were involved or not.",
-        "Corktree",
         150.0,
         37.75426961946803,
         -122.45237250153855
@@ -121,7 +116,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "THE Tony Packo Hot Dog",
         "A favorite of corpsmen everywhere.",
-        "Packo",
         2.95,
         41.65997804188749,
         -83.50212186996635
@@ -129,7 +123,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Ukelele",
         "A musical device that's like a guitar, but quirkier while still sounding nice.",
-        "Ukelele",
         230.0,
         37.791358805376284,
         -122.4848957436539
@@ -137,7 +130,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Forklift Pack",
         "Devices you can ride in to life heavy things, provided they're on a pallet. Pack of 4. Serious lifters only",
-        "Forklifts",
         49500.0,
         0.0,
         5.0
@@ -145,7 +137,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "Space Filler",
         "A large object devoid of any other definable qualities. It's big.",
-        "Space",
         1.0,
         30.0,
         -115.0
@@ -153,7 +144,6 @@ private val KioskItemList = listOf(
     KioskItem(
         "A fine duck",
         "One good bird. Aquatically inclined",
-        "DuckPlus",
         0.1,
         37.6867883226709,
         -122.3943727561881
