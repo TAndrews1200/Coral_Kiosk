@@ -19,6 +19,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:background="@color/material_dynamic_neutral70"
+        android:id="@+id/cartFragmentEmptyCartTextView"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:text="@string/no_items"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_30"
+        app:layout_constraintBottom_toBottomOf="@+id/cartFragmentRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/cartFragmentRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/cartFragmentRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/cartFragmentRecyclerView" />
+
     <Button
         android:id="@+id/cartFragmentCheckoutButton"
         android:layout_width="@dimen/checkout_button_width"

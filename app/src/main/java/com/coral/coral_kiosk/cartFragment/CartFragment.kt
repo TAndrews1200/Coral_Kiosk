@@ -24,6 +24,7 @@ class CartFragment : BaseFragment() {
 
     private val viewModel: CartViewModel by viewModels()
     private lateinit var cartRecyclerView: RecyclerView
+    private lateinit var cartEmptyListTextView: TextView
     private lateinit var cartPriceTotal: TextView
     private lateinit var checkoutButton: Button
 
@@ -38,6 +39,7 @@ class CartFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         checkoutButton = view.findViewById(R.id.cartFragmentCheckoutButton)
         cartRecyclerView = view.findViewById(R.id.cartFragmentRecyclerView)
+        cartEmptyListTextView = view.findViewById(R.id.cartFragmentEmptyCartTextView)
         cartPriceTotal = view.findViewById(R.id.cartFragmentTotalPrice)
         checkoutButton.setOnClickListener { v: View? -> displayCheckoutDialog() }
     }
@@ -54,7 +56,15 @@ class CartFragment : BaseFragment() {
             cartPriceTotal.text = getString(R.string.generic_dollar_sign_format, price.toString())
         }
         val quantityObserver = Observer<Int> { quantity ->
-            checkoutButton.setText(getString(R.string.buy_x_items, quantity))
+            val hasItems = quantity > 0
+            cartRecyclerView.visibility = if (hasItems) View.VISIBLE else View.INVISIBLE
+            cartEmptyListTextView.visibility = if (hasItems) View.INVISIBLE else View.VISIBLE
+            checkoutButton.isEnabled = hasItems
+
+            checkoutButton.setText(
+                if (hasItems) getString(R.string.buy_x_items, quantity)
+                else getString(R.string.no_items_in_cart)
+            )
         }
         viewModel.activeCartList.observe(this, listObserver)
         viewModel.activeCartPrice.observe(this, priceObserver)
@@ -90,7 +100,8 @@ class CartFragment : BaseFragment() {
                     R.string.double_check_checkout,
                     viewModel.activeCartQuantity.value.toString(),
                     viewModel.activeCartPrice.value.toString()
-                ))
+                )
+            )
         alertDialogBuilder.setPositiveButton(getString(R.string.yes)) { _, _ ->
             checkoutConfirmed()
         }
