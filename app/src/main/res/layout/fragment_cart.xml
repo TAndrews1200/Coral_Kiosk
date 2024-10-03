@@ -27,6 +27,7 @@
         android:text="@string/no_items"
         android:gravity="center"
         android:textSize="@dimen/text_size_30"
+        tools:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/cartFragmentRecyclerView"
         app:layout_constraintTop_toTopOf="@+id/cartFragmentRecyclerView"
         app:layout_constraintEnd_toEndOf="@+id/cartFragmentRecyclerView"

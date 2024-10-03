@@ -1,5 +1,6 @@
 package com.coral.coral_kiosk.listFragment
 
+import android.icu.text.DecimalFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.coral.coral_kiosk.R
 import com.coral.coral_kiosk.models.KioskItem
-import java.math.BigDecimal
-import java.math.MathContext
 
 /**
  * The Adapter for the cart interface, to changing the inventory of the cart.
@@ -37,9 +36,10 @@ class CartListAdapter(
         holder.nameTextView.text = kioskItem.name
         holder.quantityTextView.text =
             holder.itemView.context.getString(R.string.generic_quantity_template, itemQuantity.toString())
+        val formatter = DecimalFormat("#.##")
         holder.priceTextView.text =
             holder.itemView.context.getString(R.string.generic_dollar_sign_format,
-                BigDecimal(itemQuantity * kioskItem.price).round(MathContext(3)).toString())
+                formatter.format(itemQuantity * kioskItem.price))
 
         holder.itemRemoveButton.setOnClickListener {
             onRemoveClick(position)
