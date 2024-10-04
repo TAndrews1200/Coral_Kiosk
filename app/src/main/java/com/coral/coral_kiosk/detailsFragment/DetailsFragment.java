@@ -56,10 +56,14 @@ public class DetailsFragment extends BaseFragment {
         addToCartButton.setOnClickListener(v -> {
             String quantity = itemQuantity.getText().toString();
             if (!quantity.isEmpty()) {
-                mViewModel.addToCart(Integer.parseInt(quantity));
-                Toast.makeText(this.getContext(), "Added " + quantity + " to cart!", Toast.LENGTH_SHORT).show();
-                sendPurchaseNotification();
-                navBack();
+                boolean success = mViewModel.addToCart(quantity);
+                if (success) {
+                    Toast.makeText(this.getContext(), "Added " + quantity + " to cart!", Toast.LENGTH_SHORT).show();
+                    sendPurchaseNotification();
+                    navBack();
+                } else {
+                    Toast.makeText(this.getContext(), "Please order fewer at a time, thank you!", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(this.getContext(), R.string.please_enter_a_valid_quantity, Toast.LENGTH_SHORT).show();
             }

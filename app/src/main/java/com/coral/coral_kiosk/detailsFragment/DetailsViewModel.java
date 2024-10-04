@@ -41,9 +41,16 @@ public class DetailsViewModel extends ViewModel {
     /**
      * Add the current item to the cart in a specified quantity
      *
-     * @param quantity amount of the the current item to add to cart
+     * @param stringQuantity amount of the the current item to add to cart
+     * @return boolean True if quantity could be added
      */
-    public void addToCart(int quantity){
-        kioskRepo.changeItemAmountInCart(getCurrentItem(), quantity);
+    public boolean addToCart(String stringQuantity){
+        try {
+            int quantity = Integer.parseInt(stringQuantity);
+            kioskRepo.changeItemAmountInCart(getCurrentItem(), quantity);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
